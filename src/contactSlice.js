@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'https://66c1d66ef83fffcb587a57fe.mockapi.io/contacts';
-
+const API_URL = 'https://connections-api.goit.global/'; 
 export const fetchContacts = createAsyncThunk('contacts/fetchAll', async () => {
   const response = await axios.get(API_URL);
   return response.data;
@@ -24,16 +23,41 @@ export const deleteContact = createAsyncThunk(
   }
 );
 
+export const login = createAsyncThunk(
+  'contacts/login',
+  async (credentials, { dispatch }) => {
+    const response = await axios.post(
+      'https://connections-api.goit.global/api/login',
+      credentials
+    ); 
+    const { token, user } = response.data;
+
+    localStorage.setItem('authToken', token);
+    dispatch(setUser(user));
+
+    return user;
+  }
+);
+
 const contactSlice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
+    filter: '',
     isLoading: false,
     error: null,
+    user: null,
   },
   reducers: {
     setFilter(state, action) {
       state.filter = action.payload;
+    },
+    logout(state) {
+      state.user = null;
+      localStorage.removeItem('authToken');
+    },
+    setUser(state, action) {
+      state.user = action.payload;
     },
   },
   extraReducers: builder => {
@@ -60,5 +84,5 @@ const contactSlice = createSlice({
   },
 });
 
-export const { setFilter } = contactSlice.actions;
+export const { setFilter, logout, setUser } = contactSlice.actions;
 export default contactSlice.reducer;

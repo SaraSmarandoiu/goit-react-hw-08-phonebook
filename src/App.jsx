@@ -4,6 +4,10 @@ import { fetchContacts, setFilter } from './contactSlice';
 import ContactForm from './components/ContactForm/ContactForm';
 import ContactList from './components/ContactList/ContactList';
 import Filter from './components/Filter/Filter';
+import Navigation from './components/Navigation/Navigation';
+import UserMenu from './components/UserMenu/UserMenu';
+import { Route, Routes } from 'react-router-dom';
+import LoginPage from './components/LoginPage/LoginPage';
 import styles from './App.module.css';
 
 const App = () => {
@@ -29,13 +33,27 @@ const App = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter value={filter} onChange={handleFilterChange} />
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      <ContactList contacts={getFilteredContacts()} />
+      <Navigation />
+      <UserMenu />
+      <Routes>
+        <Route path="/register" element={<div>Register Page</div>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/contacts"
+          element={
+            <>
+              <h1>Phonebook</h1>
+              <ContactForm />
+              <h2>Contacts</h2>
+              <Filter value={filter} onChange={handleFilterChange} />
+              {isLoading && <p>Loading...</p>}
+              {error && <p>Error: {error}</p>}
+              <ContactList contacts={getFilteredContacts()} />
+            </>
+          }
+        />
+        <Route path="/" element={<div>Home Page</div>} />
+      </Routes>
     </div>
   );
 };
