@@ -4,7 +4,7 @@ import RegisterPage from './components/RegisterPage/RegisterPage';
 import LoginPage from './components/LoginPage/LoginPage';
 import ContactList from './components/ContactList/ContactList';
 import Navigation from './components/Navigation/Navigation';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 const App = () => {
   return (

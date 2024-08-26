@@ -11,8 +11,8 @@ const RegisterPage = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setError(null); // Resetează eroarea înainte de a trimite cererea
-    setSuccess(null); // Resetează succesul înainte de a trimite cererea
+    setError(null);
+    setSuccess(null);
 
     try {
       const response = await axios.post(
@@ -26,15 +26,9 @@ const RegisterPage = () => {
       setSuccess('User registered successfully!');
       console.log('User registered', response.data);
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.code === 11000
-      ) {
-        setError('This email or username is already taken.');
-      } else {
-        setError('Failed to register. Please try again.');
-      }
+      setError(
+        error.response?.data?.message || 'Failed to register. Please try again.'
+      );
       console.error(
         'Failed to register:',
         error.response?.data || error.message

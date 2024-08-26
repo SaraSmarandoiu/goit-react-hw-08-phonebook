@@ -8,16 +8,11 @@
 
 .link {
   text-decoration: none;
-  color: #007bff;
+  color: #bc85f9;
   font-weight: bold;
 }
 
-.link:hover {
-  text-decoration: underline;
-  color: #0056b3;
-}
-
 .activeLink {
-  color: #0056b3;
+  color: #e6c3f8;
   text-decoration: underline;
 }
