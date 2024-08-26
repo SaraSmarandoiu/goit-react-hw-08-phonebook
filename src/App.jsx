@@ -1,24 +1,14 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
-import Navigation from './components/Navigation/Navigation';
-import ContactForm from './components/ContactForm/ContactForm';
-import ContactList from './components/ContactList/ContactList';
-import Filter from './components/Filter/Filter';
-import LoginPage from './components/LoginPage/LoginPage';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import UserMenu from './components/UserMenu/UserMenu';
-import { useSelector } from 'react-redux';
+import LoginPage from './components/LoginPage/LoginPage';
+import ContactList from './components/ContactList/ContactList';
+import Navigation from './components/Navigation/Navigation';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 
 const App = () => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated); 
-
   return (
-    <Router>
+    <div>
       <Navigation />
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
@@ -26,22 +16,14 @@ const App = () => {
         <Route
           path="/contacts"
           element={
-            isAuthenticated ? (
-              <div>
-                <UserMenu />{' '}
-                <h1>Contacts</h1>
-                <ContactForm />{' '}
-                <Filter /> 
-                <ContactList /> 
-              </div>
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            <PrivateRoute>
+              <ContactList />
+            </PrivateRoute>
           }
         />
-        <Route path="/" element={<Navigate to="/login" replace />} />{' '}
+        <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
-    </Router>
+    </div>
   );
 };
 

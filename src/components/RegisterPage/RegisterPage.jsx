@@ -11,8 +11,8 @@ const RegisterPage = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setError(null); 
-    setSuccess(null);
+    setError(null); // Resetează eroarea înainte de a trimite cererea
+    setSuccess(null); // Resetează succesul înainte de a trimite cererea
 
     try {
       const response = await axios.post(
