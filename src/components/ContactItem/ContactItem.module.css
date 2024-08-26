@@ -1,0 +1,9 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+button {
+  margin-left: 10px;
+}
