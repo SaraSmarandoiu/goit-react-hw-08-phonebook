@@ -1,0 +1,23 @@
+.nav {
+  display: flex;
+  gap: 15px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+.link {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.activeLink {
+  color: #0056b3;
+  text-decoration: underline;
+}

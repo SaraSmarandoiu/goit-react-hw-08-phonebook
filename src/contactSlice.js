@@ -1,16 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'https://connections-api.goit.global/'; 
+const API_URL = 'https://connections-api.goit.global';
+
 export const fetchContacts = createAsyncThunk('contacts/fetchAll', async () => {
-  const response = await axios.get(API_URL);
+  const response = await axios.get(`${API_URL}/contacts`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+  });
   return response.data;
 });
 
 export const addContact = createAsyncThunk(
   'contacts/addContact',
   async newContact => {
-    const response = await axios.post(API_URL, newContact);
+    const response = await axios.post(`${API_URL}/contacts`, newContact, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    });
     return response.data;
   }
 );
@@ -18,26 +27,22 @@ export const addContact = createAsyncThunk(
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async id => {
-    await axios.delete(`${API_URL}/${id}`);
+    await axios.delete(`${API_URL}/contacts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    });
     return id;
   }
 );
 
-export const login = createAsyncThunk(
-  'contacts/login',
-  async (credentials, { dispatch }) => {
-    const response = await axios.post(
-      'https://connections-api.goit.global/api/login',
-      credentials
-    ); 
-    const { token, user } = response.data;
+export const login = createAsyncThunk('auth/login', async credentials => {
+  const response = await axios.post(`${API_URL}/users/login`, credentials);
+  const { token, user } = response.data;
 
-    localStorage.setItem('authToken', token);
-    dispatch(setUser(user));
-
-    return user;
-  }
-);
+  localStorage.setItem('authToken', token);
+  return user;
+});
 
 const contactSlice = createSlice({
   name: 'contacts',
@@ -80,6 +85,9 @@ const contactSlice = createSlice({
         state.items = state.items.filter(
           contact => contact.id !== action.payload
         );
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
       });
   },
 });

@@ -1,42 +1,49 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { login } from '../../contactSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../contactSlice'; 
+import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
-
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error } = useSelector(state => state.auth);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
 
   const handleSubmit = async e => {
     e.preventDefault();
-    try {
-      await dispatch(login({ email, password })).unwrap();
-      window.location.href = '/contacts';
-    } catch (error) {
-      console.error('Failed to login:', error);
+    const result = await dispatch(login({ email, password }));
+    if (login.fulfilled.match(result)) {
+      navigate('/contacts');
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
+      <h2>Login</h2>
+      {error && (
+        <p className={styles.error}>{error.message || 'Login failed'}</p>
+      )}
       <input
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        className={styles.input}
         placeholder="Email"
+        className={styles.input}
         required
       />
       <input
         type="password"
         value={password}
         onChange={e => setPassword(e.target.value)}
-        className={styles.input}
         placeholder="Password"
+        className={styles.input}
         required
       />
-      <button type="submit">Login</button>
+      <button type="submit" className={styles.button} disabled={loading}>
+        {loading ? 'Logging in...' : 'Login'}
+      </button>
     </form>
   );
 };
