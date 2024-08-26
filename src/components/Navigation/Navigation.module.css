@@ -8,11 +8,11 @@
 
 .link {
   text-decoration: none;
-  color: #bc85f9;
+  color: #ce9cf1;
   font-weight: bold;
 }
 
 .activeLink {
-  color: #e6c3f8;
+  color: #d783f0;
   text-decoration: underline;
 }

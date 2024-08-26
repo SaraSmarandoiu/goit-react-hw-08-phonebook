@@ -6,7 +6,7 @@ body {
 }
 
 nav {
-  background-color: #007bff;
+  background-color: #e5bdf7;
   padding: 15px 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -30,7 +30,7 @@ nav a:hover {
 
 h2 {
   text-align: center;
-  color: #333;
+  color: #8512ea;
 }
 
 p {

@@ -11,10 +11,14 @@
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
+.input:focus {
+  border-color: #9900ff;
+  box-shadow: 0 0 5px rgba(192, 146, 223, 0.5);
+  outline: none;
+}
 .button {
   padding: 10px;
-  background-color: #007bff;
+  background-color: #ce9cf1;
   color: white;
   border: none;
   border-radius: 5px;
@@ -22,5 +26,5 @@
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #d783f0;
 }
