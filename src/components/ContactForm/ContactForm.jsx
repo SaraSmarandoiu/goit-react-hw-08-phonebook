@@ -5,16 +5,15 @@ import styles from './ContactForm.module.css';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState(''); 
+  const [number, setNumber] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
     if (name && number) {
-      
-      dispatch(addContact({ name, number })); 
+      dispatch(addContact({ name, number }));
       setName('');
-      setNumber(''); 
+      setNumber('');
     } else {
       console.error('Both name and number are required.');
     }
@@ -32,8 +31,8 @@ const ContactForm = () => {
       />
       <input
         type="text"
-        value={number} 
-        onChange={e => setNumber(e.target.value)} 
+        value={number}
+        onChange={e => setNumber(e.target.value)}
         className={styles.input}
         placeholder="Phone Number"
         required

@@ -1,6 +1,7 @@
+// LoginPage.jsx
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../../contactsSlice';
+import { login } from '../../authSlice'; // Asigură-te că imporți din authSlice
 import styles from './LoginPage.module.css';
 
 const LoginPage = () => {
