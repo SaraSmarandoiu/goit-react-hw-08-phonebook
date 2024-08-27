@@ -4,12 +4,12 @@ import contactsReducer from './contactsSlice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { combineReducers } from 'redux';
-import { thunk } from 'redux-thunk'; // Import explicit
+import { thunk } from 'redux-thunk'; 
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'], // doar auth va fi persistat
+  whitelist: ['auth'], 
 };
 
 const rootReducer = combineReducers({
@@ -23,7 +23,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      serializableCheck: false, // Dezactivează verificarea de serializare dacă e necesar
+      serializableCheck: false, 
     }).concat(thunk),
 });
 
