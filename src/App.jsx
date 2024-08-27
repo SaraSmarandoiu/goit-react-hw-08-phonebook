@@ -5,11 +5,13 @@ import LoginPage from './components/LoginPage/LoginPage';
 import ContactList from './components/ContactList/ContactList';
 import Navigation from './components/Navigation/Navigation';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import UserMenu from './components/UserMenu/UserMenu';
+import UserMenu from './components/UserMenu/UserMenu'; 
+
 const App = () => {
   return (
     <div>
       <Navigation />
+      <UserMenu />{' '}
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -17,7 +19,7 @@ const App = () => {
           path="/contacts"
           element={
             <PrivateRoute>
-              <UserMenu /> <ContactList />
+              <ContactList />
             </PrivateRoute>
           }
         />

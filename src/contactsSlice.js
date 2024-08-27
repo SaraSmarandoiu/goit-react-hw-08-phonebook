@@ -5,42 +5,29 @@ const API_URL = 'https://connections-api.goit.global/contacts';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
-  async (_, { getState }) => {
-    const state = getState();
-    const token = state.auth.token;
+  async (_, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
     try {
-      const response = await axios.get(
-        'https://connections-api.goit.global/contacts',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(API_URL, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       return response.data;
     } catch (error) {
-      console.error('Eroare la preluarea contactelor:', error);
-      throw error;
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async (newContact, { rejectWithValue }) => {
+  async (newContact, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
     try {
       const response = await axios.post(API_URL, newContact, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
     } catch (error) {
-      console.error(
-        'Error adding contact:',
-        error.response?.data || error.message
-      );
       return rejectWithValue(error.response?.data || error.message);
     }
   }
@@ -48,55 +35,37 @@ export const addContact = createAsyncThunk(
 
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async (contactId, { rejectWithValue }) => {
+  async (contactId, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
     try {
       await axios.delete(`${API_URL}/${contactId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       return contactId;
     } catch (error) {
-      console.error(
-        'Error deleting contact:',
-        error.response?.data || error.message
-      );
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-const contactSlice = createSlice({
+const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
     filter: '',
     isLoading: false,
     error: null,
-    user: null,
-    token: null,
-    isAuthenticated: false,
   },
   reducers: {
     setFilter(state, action) {
       state.filter = action.payload;
-    },
-    logout(state) {
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
-      localStorage.removeItem('authToken');
-    },
-    setUser(state, action) {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.isAuthenticated = true;
     },
   },
   extraReducers: builder => {
     builder
       .addCase(fetchContacts.pending, state => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -117,5 +86,5 @@ const contactSlice = createSlice({
   },
 });
 
-export const { setFilter, logout, setUser } = contactSlice.actions;
-export default contactSlice.reducer;
+export const { setFilter } = contactsSlice.actions;
+export default contactsSlice.reducer;

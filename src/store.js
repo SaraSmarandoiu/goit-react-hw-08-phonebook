@@ -1,23 +1,30 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
+import authReducer from './authSlice';
+import contactsReducer from './contactsSlice';
 import storage from 'redux-persist/lib/storage';
-import rootReducer from './reducers'; // Presupunând că ai un rootReducer
+import { persistReducer, persistStore } from 'redux-persist';
+import { combineReducers } from 'redux';
+import { thunk } from 'redux-thunk'; // Import explicit
 
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['auth'], // doar auth va fi persistat
 };
+
+const rootReducer = combineReducers({
+  auth: authReducer,
+  contacts: contactsReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const store = configureStore({
+export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      serializableCheck: false, 
-    }),
+      serializableCheck: false, // Dezactivează verificarea de serializare dacă e necesar
+    }).concat(thunk),
 });
 
-const persistor = persistStore(store);
-
-export { store, persistor };
+export const persistor = persistStore(store);

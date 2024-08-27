@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../contactsSlice';
+import { logout } from '../../authSlice';
 import styles from './UserMenu.module.css';
 
 const UserMenu = () => {
   const dispatch = useDispatch();
-  const userEmail = useSelector(state => state.contacts.user?.email);
+  const userEmail = useSelector(state => state.auth.user?.email);
 
   const handleLogout = () => {
     dispatch(logout());
