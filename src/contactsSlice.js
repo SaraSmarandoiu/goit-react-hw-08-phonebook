@@ -8,17 +8,23 @@ export const fetchContacts = createAsyncThunk(
   async (_, { getState }) => {
     const state = getState();
     const token = state.auth.token;
-    const response = await axios.get(
-      'https://connections-api.goit.global/contacts',
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
+    try {
+      const response = await axios.get(
+        'https://connections-api.goit.global/contacts',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Eroare la preluarea contactelor:', error);
+      throw error;
+    }
   }
 );
+
 
 export const addContact = createAsyncThunk(
   'contacts/addContact',
