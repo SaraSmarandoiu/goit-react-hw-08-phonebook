@@ -4,16 +4,14 @@
     <meta charset="utf-8" />
     <title>Page not found</title>
     <script type="text/javascript">
-      
-      var redirectTo = '/';
-      if (
-        location.pathname.indexOf('/#/') === -1 &&
-        location.pathname.indexOf('/index.html') === -1
-      ) {
-        redirectTo = '/#' + location.pathname;
-      }
-      location.replace(redirectTo);
+      var l = window.location;
+      var root = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/';
+      var path = l.pathname.replace(/\/$/, '').replace(/^\//, '');
+      var newUrl = root + '?/' + path + l.search + l.hash;
+      window.location.replace(newUrl);
     </script>
   </head>
-  <body></body>
+  <body>
+    <h1>404 - Page Not Found</h1>
+  </body>
 </html>
