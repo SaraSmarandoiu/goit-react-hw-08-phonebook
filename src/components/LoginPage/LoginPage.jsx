@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from '../../authSlice';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
@@ -9,7 +9,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const handleSubmit = async e => {
     e.preventDefault();
