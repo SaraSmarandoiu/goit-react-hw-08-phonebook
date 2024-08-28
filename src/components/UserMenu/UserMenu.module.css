@@ -23,3 +23,9 @@ button {
 button:hover {
   background-color: #d783f0;
 }
+.email {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #00ccff;
+  font-size: 14px;
+}

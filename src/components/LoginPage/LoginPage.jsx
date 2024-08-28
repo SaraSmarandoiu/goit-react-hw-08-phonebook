@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../authSlice';
+import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
       await dispatch(login({ email, password })).unwrap();
-      window.location.href = '/contacts';
+      navigate('/contacts'); 
     } catch (error) {
       console.error('Failed to login:', error);
     }
